@@ -1,0 +1,27 @@
+package dev.polar.reader.controller;
+
+import dev.polar.reader.dto.ChapterRequest;
+import dev.polar.reader.model.Chapter;
+import dev.polar.reader.service.ChapterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/chapters") // All URLs start here
+public class ChapterController {
+
+    @Autowired
+    private ChapterService chapterService;
+
+    // POST means "Create New"
+    @PostMapping
+    public Chapter addChapter(@RequestBody ChapterRequest request) {
+        return chapterService.addChapter(request);
+    }
+
+    // GET means "Read"
+    @GetMapping("/{id}")
+    public Chapter getChapter(@PathVariable Long id) {
+        return chapterService.getChapter(id);
+    }
+}

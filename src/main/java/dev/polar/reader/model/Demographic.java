@@ -1,4 +1,5 @@
 package dev.polar.reader.model;
 
-public class Demographic {
+public enum Demographic {
+    SHOUNEN, SHOUJO, SEINEN, JOSEI, KIDS
 }
