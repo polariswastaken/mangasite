@@ -6,6 +6,7 @@ import dev.polar.reader.service.ChapterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*") // * = allow everyone
 @RestController
 @RequestMapping("/api/chapters") // All URLs start here
 public class ChapterController {

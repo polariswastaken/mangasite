@@ -10,8 +10,7 @@ import java.util.List;
 public class MangaService {
 
     // Dependency Injection:
-    // We need the Repository to do our job.
-    // @Autowired tells Spring: "Please give me a working instance of MangaRepository."
+
     @Autowired
     private MangaRepository mangaRepository;
 

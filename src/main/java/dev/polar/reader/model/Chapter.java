@@ -1,5 +1,6 @@
 package dev.polar.reader.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -33,5 +34,6 @@ public class Chapter {
     // Many Chapters belong to One Manga.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manga_id") // This creates the foreign key column
+    @JsonIgnoreProperties("chapters")
     private Manga manga;
 }

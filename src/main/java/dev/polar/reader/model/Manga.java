@@ -1,5 +1,6 @@
 package dev.polar.reader.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,5 +44,6 @@ public class Manga {
     // One Manga has Many Chapters
     // "mappedBy" means the Chapter owns the relationship key
     @OneToMany(mappedBy = "manga", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("manga")
     private List<Chapter> chapters = new ArrayList<>();
 }

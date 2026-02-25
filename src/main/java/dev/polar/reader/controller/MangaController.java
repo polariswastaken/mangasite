@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController // 1. Tells Spring: "This class handles HTTP requests (GET, POST, etc.)"
 @RequestMapping("/api/manga") // 2. "All URLs starting with /api/manga come here."
 public class MangaController {
