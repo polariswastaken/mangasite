@@ -8,19 +8,17 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*") // * = allow everyone
 @RestController
-@RequestMapping("/api/chapters") // All URLs start here
+@RequestMapping("/api/chapters")
 public class ChapterController {
 
     @Autowired
     private ChapterService chapterService;
 
-    // POST means "Create New"
     @PostMapping
     public Chapter addChapter(@RequestBody ChapterRequest request) {
         return chapterService.addChapter(request);
     }
 
-    // GET means "Read"
     @GetMapping("/{id}")
     public Chapter getChapter(@PathVariable Long id) {
         return chapterService.getChapter(id);

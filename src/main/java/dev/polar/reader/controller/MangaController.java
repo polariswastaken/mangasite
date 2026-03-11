@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
-@RestController // 1. Tells Spring: "This class handles HTTP requests (GET, POST, etc.)"
-@RequestMapping("/api/manga") // 2. "All URLs starting with /api/manga come here."
+@RestController
+@RequestMapping("/api/manga")
 public class MangaController {
 
     // Dependency Injection:
@@ -19,15 +19,23 @@ public class MangaController {
     @Autowired
     private MangaService mangaService;
 
-    // --- READ (GET) ---
-
     // URL: GET http://localhost:8080/api/manga
     // Returns: A list of all mangas in JSON format.
     @GetMapping
     public ResponseEntity<List<Manga>> getAllManga() {
+        // could add these in return(here) but separated for improved readability
         List<Manga> mangas = mangaService.getAllManga();
         return new ResponseEntity<>(mangas, HttpStatus.OK);
     }
+
+    // URL: GET http://localhost:8080/api/manga/id?keyword=(Manga ID number)
+    // Returns: 1 manga with matching id.
+    @GetMapping("/{id}")
+    public ResponseEntity<Manga> getMangaById(@PathVariable long id) {
+        Manga manga = mangaService.getMangaById(id);
+        return new ResponseEntity<>(manga, HttpStatus.OK);
+    }
+
 
     // URL: GET http://localhost:8080/api/manga/search?keyword=Solo
     // Returns: Mangas matching the keyword.
@@ -38,7 +46,6 @@ public class MangaController {
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
-    // --- CREATE (POST) ---
 
     // URL: POST http://localhost:8080/api/manga
     // Body: { "title": "Solo Leveling", "type": "MANHWA" ... }
@@ -46,16 +53,13 @@ public class MangaController {
     @PostMapping
     public ResponseEntity<Manga> addManga(@RequestBody Manga manga) {
         Manga newManga = mangaService.addManga(manga);
-        // Return the created manga and a 201 CREATED status code (Standard HTTP practice)
         return new ResponseEntity<>(newManga, HttpStatus.CREATED);
     }
 
-    // --- DELETE (DELETE) ---
     // URL: DELETE http://localhost:8080/api/manga/1
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteManga(@PathVariable Long id) {
-        // We haven't made delete logic in the service yet, but this is how the controller would look.
-        // For now, let's just return OK to show the concept.
+        // todo ADD DELETION LOGIC
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
