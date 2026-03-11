@@ -9,14 +9,14 @@ import java.util.List;
 
 // This part is called Generics. It tells the Super Tool what it is handling
 // Manga: "This tool manages the Manga table."
-// Long: "The ID of the Manga is a Long (number)."import org.springframework.stereotype.Repository;
-@Repository // Tells Spring: "This is a Pantry Manager."
+// Long: "The ID of the Manga is a Long (number).
+@Repository
 public interface MangaRepository extends JpaRepository<Manga, Long> {
 
     // MAGIC METHODS (Query Methods)
     // Spring sees "findByTitle" and automatically writes the SQL:
     // SELECT * FROM manga WHERE title = ?
-    List<Manga> findByTitle(String title);
+    Manga findByTitle(String title);
 
     // Find by part of the title (Search bar logic!)
     // SQL: SELECT * FROM manga WHERE title LIKE %keyword%

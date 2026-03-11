@@ -36,6 +36,15 @@ public class MangaController {
         return new ResponseEntity<>(manga, HttpStatus.OK);
     }
 
+    // URL: GET http://localhost:8080/api/manga/title/naruto
+    @GetMapping("/title/{mangaName}")
+    public ResponseEntity<Manga> getMangaByName(@PathVariable String mangaName) {
+
+        Manga foundManga = mangaService.getMangaByTitle(mangaName);
+
+        return new ResponseEntity<>(foundManga, HttpStatus.OK);
+    }
+
 
     // URL: GET http://localhost:8080/api/manga/search?keyword=Solo
     // Returns: Mangas matching the keyword.

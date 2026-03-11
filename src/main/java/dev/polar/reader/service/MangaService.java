@@ -23,6 +23,10 @@ public class MangaService {
                 .orElseThrow(() -> new RuntimeException("Manga not found"));
     }
 
+    public Manga getMangaByName(String name) {
+        return mangaRepository.findByTitle(name);
+    }
+
     // Add a Manga
     public Manga addManga(Manga manga) {
         // Validation Logic. Don't allow empty titles
