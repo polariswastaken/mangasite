@@ -15,37 +15,36 @@ import java.util.List;
 public class ChapterService {
 
     @Autowired
-    private ChapterRepository chapterRepository; // Tool to save Chapters
+    private ChapterRepository chapterRepository; // DI'd to save Chapters
 
     @Autowired
-    private MangaRepository mangaRepository;     // Tool to find Mangas
+    private MangaRepository mangaRepository; // DI'd to find Mangas
 
-    // This method takes the "Ticket" (Request) and returns a real "Chapter"
+    // Takes the "Ticket" (Request) and returns a real "Chapter"
     public Chapter addChapter(ChapterRequest request) {
 
-        // 1. Find the Parent Manga
-        // .orElseThrow() means: "If you can't find it, stop everything and crash safely."
+        // Find the Parent Manga
         Manga manga = mangaRepository.findById(request.mangaId())
                 .orElseThrow(() -> new RuntimeException("Manga not found!"));
 
-        // 2. Create the blank Chapter
+        // Create the blank Chapter
         Chapter chapter = new Chapter();
 
-        // 3. Fill in the details from the Request
+        // Fill in the details from the Request
         chapter.setChapterNumber(request.chapterNumber());
         chapter.setTitle(request.title());
         chapter.setScanlationGroup(request.scanlationGroup());
         chapter.setImageUrls(request.imageUrls());
         chapter.setUploadDate(LocalDateTime.now());
 
-        // 4. THE MOST IMPORTANT PART: Connecting them
+        // Connecting them
         chapter.setManga(manga);
 
-        // 5. Save it to the database
+        // Save it to the database
         return chapterRepository.save(chapter);
     }
 
-    // Simple method to get a chapter by its ID
+    // Get a chapter by its ID
     public Chapter getChapter(Long id) {
         return chapterRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Chapter not found"));

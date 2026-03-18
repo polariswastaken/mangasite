@@ -8,8 +8,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity // 1. Tells Spring: "Make a table called 'manga' in the database"
-@NoArgsConstructor // 3. JPA needs an empty constructor
+@Entity // Map this class to a database table
+@NoArgsConstructor // JPA needs an empty constructor
 @AllArgsConstructor
 @Setter
 @Getter
@@ -19,19 +19,16 @@ public class Manga {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID (1, 2, 3...)
     private Long id;
 
-    @Column(nullable = false) // Title cannot be empty
+    @Column(nullable = false)
     private String title;
-
-    private String alternativeTitles; // "OreLev, Solo Leveling"
-
+    private String alternativeTitles;
     private String author;
     private String artist;
 
-    @Column(length = 2000) // Descriptions can be long!
+    @Column(length = 2000)
     private String description;
 
-    private String coverImageUrl; // We just store the link, not the image file
-
+    private String coverImageUrl;
     private LocalDate releaseDate;
 
     @Enumerated(EnumType.STRING) // Store "MANHWA" as text in DB
