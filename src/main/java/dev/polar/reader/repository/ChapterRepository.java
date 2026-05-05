@@ -12,4 +12,6 @@ public interface ChapterRepository extends JpaRepository<Chapter, Long> {
     // Find all chapters for a specific Manga ID
     // SQL: SELECT * FROM chapter WHERE manga_id = ?
     List<Chapter> findByMangaId(Long mangaId);
+
+    List<Chapter> findChaptersByMangaId(Long mangaId);
 }

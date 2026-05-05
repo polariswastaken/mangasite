@@ -41,6 +41,5 @@ public class Manga {
     // One Manga has Many Chapters
     // "mappedBy" means the Chapter owns the relationship key
     @OneToMany(mappedBy = "manga", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("manga")
     private List<Chapter> chapters = new ArrayList<>();
 }

@@ -1,5 +1,6 @@
 package dev.polar.reader.controller;
 
+import dev.polar.reader.dto.MangaRequest;
 import dev.polar.reader.model.Manga;
 import dev.polar.reader.service.MangaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,11 +59,11 @@ public class MangaController {
 
     // URL: POST /api/manga
     // Body: { "title": "Solo Leveling", "type": "MANHWA" ... }
-    // @RequestBody: Takes the JSON sent by the user and turns it into a Java 'Manga' object.
+    // @RequestBody: Takes the JSON sent by the user and turns it into a Java 'MangaRequest' DTO.
     @PostMapping
-    public ResponseEntity<Manga> addManga(@RequestBody Manga manga) {
+    public ResponseEntity<Manga> addManga(@RequestBody MangaRequest request) {
 
-        Manga newManga = mangaService.addManga(manga);
+        Manga newManga = mangaService.addManga(request);
         return new ResponseEntity<>(newManga, HttpStatus.CREATED);
     }
 

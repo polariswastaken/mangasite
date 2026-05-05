@@ -40,6 +40,7 @@ public class ChapterService {
         // Connecting them
         chapter.setManga(manga);
 
+
         // Save it to the database
         return chapterRepository.save(chapter);
     }
@@ -48,5 +49,15 @@ public class ChapterService {
     public Chapter getChapter(Long id) {
         return chapterRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Chapter not found"));
+    }
+
+    public Chapter getChapterByMangaIdAndChapterNumber(Long mangaId, float chapterNumber) {
+        List<Chapter> chapters = chapterRepository.findChaptersByMangaId(mangaId);
+        for (Chapter chapter : chapters) {
+            if (chapter.getChapterNumber() == chapterNumber) {
+                return chapter;
+            }
+        }
+        return null;
     }
 }

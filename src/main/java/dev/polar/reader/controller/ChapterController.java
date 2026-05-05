@@ -23,4 +23,9 @@ public class ChapterController {
     public Chapter getChapter(@PathVariable Long id) {
         return chapterService.getChapter(id);
     }
+
+    @GetMapping("/manga/{mangaId}/{chapterNumber}")
+    public Chapter getChapterByMangaIdAndChapterNumber(@PathVariable Long mangaId, @PathVariable Float chapterNumber) {
+        return chapterService.getChapterByMangaIdAndChapterNumber(mangaId, chapterNumber);
+    }
 }

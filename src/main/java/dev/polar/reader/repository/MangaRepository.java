@@ -24,5 +24,5 @@ public interface MangaRepository extends JpaRepository<Manga, Long> {
 
     // Find all Mangas of a specific type (e.g., MANHWA)
     // SQL: SELECT * FROM manga WHERE type = ?
-    List<Manga> findByType(String type); // Note: You might need to use the Enum type here if it fails
+    List<Manga> findByType(String type); // might need to use the Enum type here if it fails
 }

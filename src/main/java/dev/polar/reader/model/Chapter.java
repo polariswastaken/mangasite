@@ -34,6 +34,6 @@ public class Chapter {
     // Many Chapters belong to One Manga.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manga_id") // This creates the foreign key column
-    @JsonIgnoreProperties("chapters")
+    @JsonIgnoreProperties("chapters") // Technically don't need this anymore since we got DTO's
     private Manga manga;
 }
