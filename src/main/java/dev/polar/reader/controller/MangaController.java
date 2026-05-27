@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://binje.dev")
 @RestController
 @RequestMapping("/api/manga")
 public class MangaController {

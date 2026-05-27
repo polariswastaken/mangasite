@@ -22,9 +22,9 @@ public class SecurityConfig {
                 cors(Customizer.withDefaults()).
                 csrf(csrf -> csrf.disable()).
                 sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).
-                authorizeHttpRequests(auth -> auth.
-                        requestMatchers("api/auth/**").permitAll()    // <-- Everyone has access
-                        .anyRequest().authenticated());                 // <-- Users ONLY have access to all endpoints
+                authorizeHttpRequests(auth -> auth. anyRequest().permitAll());
+                        //requestMatchers("/api/auth/**").permitAll()    // <-- Everyone has access
+                        //.anyRequest().authenticated());                 // <-- Users ONLY have access to all endpoints
 
         return http.build();
     }
