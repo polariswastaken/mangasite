@@ -1,6 +1,7 @@
 package dev.polar.reader.model;
 
 import jakarta.persistence.*;
+import lombok.Setter;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Setter
 @Table(name="users") // Since "user" is usually a reserved word in sql
 public class User implements UserDetails {
 
