@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = {"https://binje.dev", "http://localhost:8080"})
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -29,7 +30,6 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
     }
 
-    // 1. REGISTRATION ENDPOINT
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
         // Check if username is already taken
@@ -51,7 +51,6 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
-    // 2. LOGIN ENDPOINT
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         // This command forces Spring's AuthenticationManager to run into the database,

@@ -10,11 +10,11 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    // 1. This is your cryptographic key. It must be kept secret.
+    // This is your cryptographic key. It must be kept secret.
     private final String SECRET_STRING = "your-super-secret-secure-and-very-long-key-1234567890";
     private final Algorithm algorithm = Algorithm.HMAC256(SECRET_STRING);
 
-    // 2. Manufacture a token string
+    // Manufacture a token string
     public String generateToken(String username) {
         return JWT.create()
                 .withSubject(username) // Who owns this token
@@ -23,7 +23,7 @@ public class JwtService {
                 .sign(algorithm); // Mathematically seal it with our secret key
     }
 
-    // 3. Extract the username from a token string
+    // Extract the username from a token string
     public String extractUsername(String token) {
         DecodedJWT decodedJWT = JWT.require(algorithm)
                 .build()
@@ -31,7 +31,7 @@ public class JwtService {
         return decodedJWT.getSubject();
     }
 
-    // 4. Check if the token matches the user and hasn't expired
+    // Check if the token matches the user and hasn't expired
     public boolean isTokenValid(String token, UserDetails userDetails) {
         try {
             DecodedJWT decodedJWT = JWT.require(algorithm).build().verify(token);

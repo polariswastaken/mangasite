@@ -10,17 +10,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"https://binje.dev", "http://127.0.0.1:8000"})
+@CrossOrigin(origins = {"https://binje.dev", "http://localhost:8080"})
 @RestController
 @RequestMapping("/api/manga")
 public class MangaController {
 
-    // Dependency injection
-    @Autowired
-    private MangaService mangaService;
+    final private MangaService mangaService;
 
-    // URL: GET /api/manga
-    // Returns: A list of all mangas in JSON format.
+    MangaController(MangaService mangaService) {
+        this.mangaService = mangaService;
+    }
+
+    // Returns a list of all mangas in JSON format.
     @GetMapping
     public ResponseEntity<List<Manga>> getAllManga() {
         // could add these in return(here) but separated for improved readability
@@ -28,8 +29,8 @@ public class MangaController {
         return new ResponseEntity<>(mangas, HttpStatus.OK);
     }
 
-    // URL: GET /api/manga/id?keyword=(Manga ID number)
-    // Returns: 1 manga with matching id.
+    // URL: /api/manga/id?keyword=(Manga ID number)
+    // Returns 1 manga with a matching id.
     @GetMapping("/{id}")
     public ResponseEntity<Manga> getMangaById(@PathVariable long id) {
 
@@ -37,7 +38,7 @@ public class MangaController {
         return new ResponseEntity<>(manga, HttpStatus.OK);
     }
 
-    // URL: GET /api/manga/title/naruto
+    // URL: /api/manga/title/naruto
     @GetMapping("/title/{mangaName}")
     public ResponseEntity<Manga> getMangaByName(@PathVariable String mangaName) {
 
@@ -46,8 +47,8 @@ public class MangaController {
     }
 
 
-    // URL: GET /api/manga/search?keyword=Solo
-    // Returns: Mangas matching the keyword.
+    // URL: /api/manga/search?keyword=Solo
+    // Returns Mangas matching the keyword.
     // @RequestParam extracts "Solo" from "?keyword=Solo"
     @GetMapping("/search")
     public ResponseEntity<List<Manga>> searchManga(@RequestParam String keyword) {
@@ -57,8 +58,7 @@ public class MangaController {
     }
 
 
-    // URL: POST /api/manga
-    // Body: { "title": "Solo Leveling", "type": "MANHWA" ... }
+    // URL: /api/manga
     // @RequestBody: Takes the JSON sent by the user and turns it into a Java 'MangaRequest' DTO.
     @PostMapping
     public ResponseEntity<Manga> addManga(@RequestBody MangaRequest request) {
@@ -67,7 +67,7 @@ public class MangaController {
         return new ResponseEntity<>(newManga, HttpStatus.CREATED);
     }
 
-    // URL: DELETE /api/manga/1
+    // URL: /api/manga/1
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteManga(@PathVariable Long id) {
         // todo ADD DELETION LOGIC

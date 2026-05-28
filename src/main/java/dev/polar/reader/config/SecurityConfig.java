@@ -3,6 +3,7 @@ package dev.polar.reader.config;
 import dev.polar.reader.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -52,7 +53,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
 
-    // Inject our custom filter
+    // Inject custom filter
     public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
     }
@@ -61,19 +62,22 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(Customizer.withDefaults())
-//              .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // Disable CSRF since we're not using cookies
+
+                // The server does not care who you are, you just have to send a token with each request
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth // Define which endpoints are accessible, also runs last/late
                         .requestMatchers("/api/auth/**").permitAll() // Allow registration/login without tokens
+                        .requestMatchers(HttpMethod.GET, "/api/manga/**", "/api/chapters/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/manga/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
-                // LOOK HERE: Tell Spring to run our custom JWT filter BEFORE its standard username/password filter
+                // Tells Spring to run our custom JWT filter BEFORE its standard username/password filter
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
-    // Why do we need this Bean?
     // This is Spring's internal engine that handles verification. We need to expose it
     // so we can use it inside our AuthController to check login credentials.
     @Bean

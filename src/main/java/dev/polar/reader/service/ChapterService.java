@@ -14,20 +14,21 @@ import java.util.List;
 @Service
 public class ChapterService {
 
-    @Autowired
-    private ChapterRepository chapterRepository; // DI'd to save Chapters
+    final private ChapterRepository chapterRepository; // DI'd to save Chapters
+    final private MangaRepository mangaRepository; // DI'd to find Mangas
 
-    @Autowired
-    private MangaRepository mangaRepository; // DI'd to find Mangas
+    public ChapterService(ChapterRepository chapterRepository, MangaRepository mangaRepository) {
+        this.chapterRepository = chapterRepository;
+        this.mangaRepository = mangaRepository;
+    }
 
-    // Takes the "Ticket" (Request) and returns a real "Chapter"
+    // Takes the Request and returns a real Chapter
     public Chapter addChapter(ChapterRequest request) {
 
         // Find the Parent Manga
         Manga manga = mangaRepository.findById(request.mangaId())
                 .orElseThrow(() -> new RuntimeException("Manga not found!"));
 
-        // Create the blank Chapter
         Chapter chapter = new Chapter();
 
         // Fill in the details from the Request
@@ -39,7 +40,6 @@ public class ChapterService {
 
         // Connecting them
         chapter.setManga(manga);
-
 
         // Save it to the database
         return chapterRepository.save(chapter);

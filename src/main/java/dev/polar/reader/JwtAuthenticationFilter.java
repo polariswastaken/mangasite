@@ -21,7 +21,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final CustomUserDetailsService userDetailsService;
 
-    // Constructor injection so Spring gives us our utilities
     public JwtAuthenticationFilter(JwtService jwtService, CustomUserDetailsService userDetailsService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
@@ -34,42 +33,43 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws IOException, ServletException {
 
-        // 1. Grab the "Authorization" header from the incoming HTTP request
+        // Grab the "Authorization" header from the incoming HTTP request
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
 
-        // 2. If the header is missing or doesn't start with "Bearer ", skip this filter.
+        // If the header is missing or doesn't start with "Bearer " skip this filter.
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response); // Pass the request to the next filter
-            return;
+            return; // Cancel the rest of this filter
         }
 
-        // 3. Extract the token (everything after "Bearer ")
-        jwt = authHeader.substring(7);
+        // Extract the token aka everything after "Bearer "
+        jwt = authHeader.substring(7); // 7 = length of "Bearer "
         username = jwtService.extractUsername(jwt); // Decode it to find out who they claim to be
 
-        // 4. If we found a username and the user isn't ALREADY logged into Spring Security...
+        // Applies to registered users:
+        // If we found a username and the user isnt ALREADY logged into Spring Security...
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             // Look them up in our database
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-            // 5. If the token's signature is valid and matches the database info...
+            // If the token's signature is valid and matches the database info...
             if (jwtService.isTokenValid(jwt, userDetails)) {
 
                 // Create an internal "Security Pass" for Spring
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities()
+                        userDetails, null, userDetails.getAuthorities() // Null = no password cause we already checked it with isTokenValid()
                 );
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                // 6. STAMP THE PASS! Put them into Spring's official Security Context
+                // Puts them into Springs official Security Context
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
 
-        // 7. Let the request move forward to your Controller
+        // Let the request move forward to your Controller
         filterChain.doFilter(request, response);
     }
 }

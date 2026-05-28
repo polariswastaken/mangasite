@@ -11,9 +11,12 @@ import java.util.List;
 @Service
 public class MangaService {
 
+    final private MangaRepository mangaRepository;
+
     // Dependency Injection:
-    @Autowired
-    private MangaRepository mangaRepository;
+    public MangaService(MangaRepository mangaRepository) {
+        this.mangaRepository = mangaRepository;
+    }
 
     // Get All Manga
     public List<Manga> getAllManga() {

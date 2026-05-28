@@ -6,7 +6,7 @@ import dev.polar.reader.service.ChapterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "https://binje.dev") // * = allow only binje.dev access to api
+@CrossOrigin(origins = {"https://binje.dev", "http://localhost:8080"})
 @RestController
 @RequestMapping("/api/chapters")
 public class ChapterController {
