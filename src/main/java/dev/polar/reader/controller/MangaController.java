@@ -24,7 +24,6 @@ public class MangaController {
     // Returns a list of all mangas in JSON format.
     @GetMapping
     public ResponseEntity<List<Manga>> getAllManga() {
-        // could add these in return(here) but separated for improved readability
         List<Manga> mangas = mangaService.getAllManga();
         return new ResponseEntity<>(mangas, HttpStatus.OK);
     }

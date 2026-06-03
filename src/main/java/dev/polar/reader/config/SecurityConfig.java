@@ -69,7 +69,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth // Define which endpoints are accessible, also runs last/late
                         .requestMatchers("/api/auth/**").permitAll() // Allow registration/login without tokens
                         .requestMatchers(HttpMethod.GET, "/api/manga/**", "/api/chapters/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/manga/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/api/manga/**", "/api/chapters/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 // Tells Spring to run our custom JWT filter BEFORE its standard username/password filter

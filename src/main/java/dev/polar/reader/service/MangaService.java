@@ -41,7 +41,7 @@ public class MangaService {
 //        return mangaRepository.save(manga);
 //    }
 
-    // Takes the "Ticket" (Request) and returns a real "manga"
+    // Takes the Request and returns a real "manga"
     public Manga addManga(MangaRequest request) {
 
         // Create the blank manga

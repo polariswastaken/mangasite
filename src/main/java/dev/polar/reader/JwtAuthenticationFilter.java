@@ -33,12 +33,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws IOException, ServletException {
 
-        // Grab the "Authorization" header from the incoming HTTP request
+        // Grab the authorization header from the HTTP request
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
 
-        // If the header is missing or doesn't start with "Bearer " skip this filter.
+        // If the header is missing or doesnt start with "Bearer " --> skip this filter
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response); // Pass the request to the next filter
             return; // Cancel the rest of this filter

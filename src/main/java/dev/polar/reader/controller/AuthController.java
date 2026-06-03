@@ -40,7 +40,7 @@ public class AuthController {
         // Create a new User object
         User newUser = new User();
         newUser.setUsername(request.username());
-        // CRITICAL: Scramble the password before putting it in the database
+        // Scramble the password before putting it in the database
         newUser.setPassword(passwordEncoder.encode(request.password()));
         newUser.setRole("ROLE_USER"); // Give them a default role
 
